@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,10 +34,18 @@ interface Collection {
   image_url: string | null;
 }
 
+interface UploadedImage {
+  id?: string;
+  url: string;
+  isPrimary: boolean;
+  isNew?: boolean;
+}
+
 const AdminCollections: React.FC = () => {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
+  const [images, setImages] = useState<UploadedImage[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -57,27 +66,25 @@ const AdminCollections: React.FC = () => {
   });
 
   const saveMutation = useMutation({
-    mutationFn: async (data: typeof formData & { id?: string }) => {
+    mutationFn: async (data: typeof formData & { id?: string; image_url?: string | null }) => {
+      const collectionData = {
+        name: data.name,
+        description: data.description || null,
+        gender: data.gender,
+        is_featured: data.is_featured,
+        image_url: data.image_url || null,
+      };
+
       if (data.id) {
         const { error } = await supabase
           .from('collections')
-          .update({
-            name: data.name,
-            description: data.description || null,
-            gender: data.gender,
-            is_featured: data.is_featured,
-          })
+          .update(collectionData)
           .eq('id', data.id);
         if (error) throw error;
       } else {
         const { error } = await supabase
           .from('collections')
-          .insert({
-            name: data.name,
-            description: data.description || null,
-            gender: data.gender,
-            is_featured: data.is_featured,
-          });
+          .insert(collectionData);
         if (error) throw error;
       }
     },
@@ -108,6 +115,7 @@ const AdminCollections: React.FC = () => {
   const handleClose = () => {
     setIsOpen(false);
     setEditingCollection(null);
+    setImages([]);
     setFormData({ name: '', description: '', gender: 'female', is_featured: false });
   };
 
@@ -119,12 +127,19 @@ const AdminCollections: React.FC = () => {
       gender: collection.gender,
       is_featured: collection.is_featured || false,
     });
+    // Load existing image
+    if (collection.image_url) {
+      setImages([{ url: collection.image_url, isPrimary: true, isNew: false }]);
+    } else {
+      setImages([]);
+    }
     setIsOpen(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    saveMutation.mutate({ ...formData, id: editingCollection?.id });
+    const imageUrl = images.length > 0 ? images[0].url : null;
+    saveMutation.mutate({ ...formData, id: editingCollection?.id, image_url: imageUrl });
   };
 
   return (
@@ -138,13 +153,23 @@ const AdminCollections: React.FC = () => {
               Add Collection
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-lg">
             <DialogHeader>
               <DialogTitle>
                 {editingCollection ? 'Edit Collection' : 'Add New Collection'}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label>Collection Image</Label>
+                <ImageUpload
+                  images={images}
+                  onImagesChange={setImages}
+                  maxImages={1}
+                  folder="collections"
+                />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
@@ -209,9 +234,14 @@ const AdminCollections: React.FC = () => {
           {collections.map((collection) => (
             <div
               key={collection.id}
-              className="flex items-center justify-between p-4 bg-card border border-border rounded-lg"
+              className="flex items-center gap-4 p-4 bg-card border border-border rounded-lg"
             >
-              <div>
+              {collection.image_url && (
+                <div className="w-16 h-16 rounded-md overflow-hidden bg-secondary flex-shrink-0">
+                  <img src={collection.image_url} alt={collection.name} className="w-full h-full object-cover" />
+                </div>
+              )}
+              <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium">{collection.name}</h3>
                   {collection.is_featured && (
