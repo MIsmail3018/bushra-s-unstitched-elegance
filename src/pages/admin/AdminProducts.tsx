@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,6 +26,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import placeholderImage from '@/assets/product-placeholder-1.jpg';
 
+interface UploadedImage {
+  id?: string;
+  url: string;
+  isPrimary: boolean;
+  isNew?: boolean;
+}
+
 const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('en-PK', {
     style: 'currency',
@@ -38,6 +46,7 @@ const AdminProducts: React.FC = () => {
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [images, setImages] = useState<UploadedImage[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -72,7 +81,7 @@ const AdminProducts: React.FC = () => {
   });
 
   const saveMutation = useMutation({
-    mutationFn: async (data: typeof formData & { id?: string }) => {
+    mutationFn: async (data: typeof formData & { id?: string; images: UploadedImage[] }) => {
       const productData = {
         name: data.name,
         description: data.description || null,
@@ -85,12 +94,55 @@ const AdminProducts: React.FC = () => {
         is_featured: data.is_featured,
       };
 
+      let productId = data.id;
+
       if (data.id) {
         const { error } = await supabase.from('products').update(productData).eq('id', data.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from('products').insert(productData);
+        const { data: newProduct, error } = await supabase
+          .from('products')
+          .insert(productData)
+          .select('id')
+          .single();
         if (error) throw error;
+        productId = newProduct.id;
+      }
+
+      // Handle images - delete old ones that are no longer in the list
+      if (data.id) {
+        const existingImageIds = data.images.filter(img => img.id).map(img => img.id);
+        if (existingImageIds.length > 0) {
+          await supabase
+            .from('product_images')
+            .delete()
+            .eq('product_id', data.id)
+            .not('id', 'in', `(${existingImageIds.join(',')})`);
+        } else {
+          await supabase.from('product_images').delete().eq('product_id', data.id);
+        }
+      }
+
+      // Insert new images
+      const newImages = data.images.filter(img => img.isNew);
+      if (newImages.length > 0 && productId) {
+        const imageRecords = newImages.map((img, index) => ({
+          product_id: productId,
+          image_url: img.url,
+          is_primary: img.isPrimary,
+          display_order: index,
+        }));
+        const { error: imgError } = await supabase.from('product_images').insert(imageRecords);
+        if (imgError) throw imgError;
+      }
+
+      // Update existing images (primary status)
+      const existingImages = data.images.filter(img => img.id && !img.isNew);
+      for (const img of existingImages) {
+        await supabase
+          .from('product_images')
+          .update({ is_primary: img.isPrimary })
+          .eq('id', img.id);
       }
     },
     onSuccess: () => {
@@ -105,6 +157,8 @@ const AdminProducts: React.FC = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
+      // Delete images first
+      await supabase.from('product_images').delete().eq('product_id', id);
       const { error } = await supabase.from('products').delete().eq('id', id);
       if (error) throw error;
     },
@@ -120,6 +174,7 @@ const AdminProducts: React.FC = () => {
   const handleClose = () => {
     setIsOpen(false);
     setEditingProduct(null);
+    setImages([]);
     setFormData({
       name: '',
       description: '',
@@ -146,12 +201,20 @@ const AdminProducts: React.FC = () => {
       collection_id: product.collection_id || '',
       is_featured: product.is_featured || false,
     });
+    // Load existing images
+    const existingImages: UploadedImage[] = (product.product_images || []).map((img: any) => ({
+      id: img.id,
+      url: img.image_url,
+      isPrimary: img.is_primary || false,
+      isNew: false,
+    }));
+    setImages(existingImages);
     setIsOpen(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    saveMutation.mutate({ ...formData, id: editingProduct?.id });
+    saveMutation.mutate({ ...formData, id: editingProduct?.id, images });
   };
 
   return (
@@ -172,6 +235,16 @@ const AdminProducts: React.FC = () => {
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label>Product Images</Label>
+                <ImageUpload
+                  images={images}
+                  onImagesChange={setImages}
+                  maxImages={5}
+                  folder="products"
+                />
+              </div>
+
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name *</Label>
