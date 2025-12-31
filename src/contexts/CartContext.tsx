@@ -25,7 +25,9 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const generateSessionId = (): string => {
-  return 'session_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return 'session_' + Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
 };
 
 const getOrCreateSessionId = (): string => {
@@ -65,7 +67,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             : i
         );
       }
-      return [...prev, { ...item, id: Math.random().toString(36).substring(2) }];
+      const idArray = new Uint8Array(8);
+      crypto.getRandomValues(idArray);
+      const secureId = Array.from(idArray, b => b.toString(16).padStart(2, '0')).join('');
+      return [...prev, { ...item, id: secureId }];
     });
   };
 
