@@ -111,13 +111,24 @@ const AdminProducts: React.FC = () => {
 
       // Handle images - delete old ones that are no longer in the list
       if (data.id) {
-        const existingImageIds = data.images.filter(img => img.id).map(img => img.id);
+        const existingImageIds = data.images.filter(img => img.id).map(img => img.id) as string[];
         if (existingImageIds.length > 0) {
-          await supabase
+          // Fetch all images for this product, then delete ones not in keep list
+          const { data: allImages } = await supabase
             .from('product_images')
-            .delete()
-            .eq('product_id', data.id)
-            .not('id', 'in', `(${existingImageIds.join(',')})`);
+            .select('id')
+            .eq('product_id', data.id);
+          
+          const imagesToDelete = allImages
+            ?.filter(img => !existingImageIds.includes(img.id))
+            .map(img => img.id) || [];
+          
+          if (imagesToDelete.length > 0) {
+            await supabase
+              .from('product_images')
+              .delete()
+              .in('id', imagesToDelete);
+          }
         } else {
           await supabase.from('product_images').delete().eq('product_id', data.id);
         }
