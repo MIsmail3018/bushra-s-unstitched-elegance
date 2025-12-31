@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
 
 interface LayoutProps {
   children: ReactNode;
@@ -13,6 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true }) => {
       <Header />
       <main className="flex-1">{children}</main>
       {showFooter && <Footer />}
+      <WhatsAppButton />
     </div>
   );
 };
