@@ -78,29 +78,49 @@ const Checkout: React.FC = () => {
     try {
       let userId = user?.id || null;
 
-      // If guest checkout, create account
+      // If guest checkout, create account and wait for authentication
       if (!user) {
         const tempPassword = Array.from(crypto.getRandomValues(new Uint8Array(24)))
           .map(b => b.toString(36).padStart(2, '0'))
           .join('')
           .slice(0, 20) + 'A1!';
+        
         const { error: signUpError } = await signUp(data.email, tempPassword, {
           full_name: data.fullName,
           phone_number: data.phone,
         });
 
-        if (signUpError && !signUpError.message.includes('already registered')) {
-          console.error('Account creation error:', signUpError);
-        } else {
-          setAccountCreated(true);
+        if (signUpError) {
+          // If user already exists, try to sign in instead
+          if (signUpError.message.includes('already registered')) {
+            toast.error('An account with this email already exists. Please sign in first.');
+            setIsSubmitting(false);
+            return;
+          }
+          throw signUpError;
+        }
+        
+        setAccountCreated(true);
+
+        // Wait for session to be established (with retry)
+        let retries = 0;
+        const maxRetries = 5;
+        while (retries < maxRetries) {
+          const { data: authData } = await supabase.auth.getSession();
+          if (authData?.session?.user?.id) {
+            userId = authData.session.user.id;
+            break;
+          }
+          await new Promise(resolve => setTimeout(resolve, 500));
+          retries++;
         }
 
-        // Get the user ID if signup succeeded
-        const { data: authData } = await supabase.auth.getSession();
-        userId = authData?.session?.user?.id || null;
+        if (!userId) {
+          throw new Error('Failed to authenticate. Please try again.');
+        }
       }
 
-      // Create order
+      // Create order - user_id is now guaranteed to be set
       const { data: order, error: orderError } = await supabase
         .from('orders')
         .insert({
