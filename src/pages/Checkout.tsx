@@ -80,7 +80,10 @@ const Checkout: React.FC = () => {
 
       // If guest checkout, create account
       if (!user) {
-        const tempPassword = Math.random().toString(36).slice(-12) + 'A1!';
+        const tempPassword = Array.from(crypto.getRandomValues(new Uint8Array(24)))
+          .map(b => b.toString(36).padStart(2, '0'))
+          .join('')
+          .slice(0, 20) + 'A1!';
         const { error: signUpError } = await signUp(data.email, tempPassword, {
           full_name: data.fullName,
           phone_number: data.phone,
