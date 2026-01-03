@@ -62,8 +62,14 @@ const FeaturedCollections: React.FC = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                      <span className="font-serif text-4xl text-primary/30">
+                    <div className={`w-full h-full flex items-center justify-center ${
+                      collection.gender === 'male' 
+                        ? 'bg-gradient-to-br from-amber-100 via-amber-50 to-yellow-100' 
+                        : 'bg-gradient-to-br from-rose-50 via-pink-50 to-amber-50'
+                    }`}>
+                      <span className={`font-serif text-6xl ${
+                        collection.gender === 'male' ? 'text-amber-600/40' : 'text-primary/30'
+                      }`}>
                         {collection.name.charAt(0)}
                       </span>
                     </div>
