@@ -40,7 +40,7 @@ const Hero: React.FC = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild variant="hero" size="xl">
+            <Button asChild variant="gold" size="xl">
               <Link to="/collections?gender=male">
                 Shop Men's Collection
               </Link>
