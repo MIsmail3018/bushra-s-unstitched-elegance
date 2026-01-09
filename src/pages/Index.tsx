@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
-import Hero from '@/components/home/Hero';
+import HeroSlider from '@/components/home/HeroSlider';
 import FeaturedCollections from '@/components/home/FeaturedCollections';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
@@ -8,7 +8,7 @@ import WhyChooseUs from '@/components/home/WhyChooseUs';
 const Index: React.FC = () => {
   return (
     <Layout>
-      <Hero />
+      <HeroSlider />
       <FeaturedCollections />
       <FeaturedProducts />
       <WhyChooseUs />
