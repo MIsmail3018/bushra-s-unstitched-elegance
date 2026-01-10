@@ -15,16 +15,12 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex gap-4 pt-2">
               <a
-                href="#"
+                href="https://www.facebook.com/bushra.haroon.946"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
               >
                 <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
-              >
-                <Instagram className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -79,15 +75,13 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-sm text-primary-foreground/80">
                 <Phone className="h-4 w-4 flex-shrink-0" />
-                <span>+92 300 1234567</span>
-              </li>
-              <li className="flex items-center gap-3 text-sm text-primary-foreground/80">
-                <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>info@bushrascollection.pk</span>
+                <a href="tel:+923325124170" className="hover:text-primary-foreground transition-colors">
+                  +92 332 5124170
+                </a>
               </li>
               <li className="flex items-start gap-3 text-sm text-primary-foreground/80">
                 <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" />
-                <span>Lahore, Pakistan</span>
+                <span>Rawalpindi, Pakistan</span>
               </li>
             </ul>
           </div>
