@@ -1,4 +1,4 @@
-import { Clock, Mail, Phone } from "lucide-react";
+import { Clock, Phone } from "lucide-react";
 
 const Maintenance = () => {
   return (
@@ -32,24 +32,15 @@ const Maintenance = () => {
         {/* Contact Info */}
         <div className="pt-8 border-t border-border">
           <p className="text-sm text-muted-foreground mb-4">Get in touch with us</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
-            <a 
-              href="mailto:info@bushraharooncollection.com" 
-              className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-            >
-              <Mail className="w-4 h-4" />
-              info@bushraharooncollection.com
-            </a>
-            <a 
-              href="https://wa.me/923001234567" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
-            >
-              <Phone className="w-4 h-4" />
-              WhatsApp
-            </a>
-          </div>
+          <a 
+            href="https://wa.me/923325124170" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+          >
+            <Phone className="w-4 h-4" />
+            WhatsApp: +92 332 5124170
+          </a>
         </div>
 
         {/* Decorative Elements */}
