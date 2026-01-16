@@ -22,7 +22,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 // MAINTENANCE MODE: Set to false to restore normal site
-const MAINTENANCE_MODE = false;
+const MAINTENANCE_MODE = true;
 
 const AppRoutes = () => {
   const { isAdmin, isLoading } = useAuth();
