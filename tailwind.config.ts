@@ -70,16 +70,15 @@ export default {
           light: "hsl(var(--gold-light))",
           dark: "hsl(var(--gold-dark))",
         },
-        emerald: {
-          DEFAULT: "hsl(var(--emerald))",
-          light: "hsl(var(--emerald-light))",
-          dark: "hsl(var(--emerald-dark))",
+        burgundy: {
+          DEFAULT: "hsl(var(--burgundy))",
+          light: "hsl(var(--burgundy-light))",
+          dark: "hsl(var(--burgundy-dark))",
         },
         cream: {
           DEFAULT: "hsl(var(--cream))",
           dark: "hsl(var(--cream-dark))",
         },
-        burgundy: "hsl(var(--burgundy))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -116,8 +115,8 @@ export default {
         "scale-in": "scale-in 0.4s ease-out forwards",
       },
       boxShadow: {
-        soft: "0 4px 20px -4px hsl(158 60% 22% / 0.1)",
-        elegant: "0 8px 30px -8px hsl(158 60% 22% / 0.15)",
+        soft: "0 4px 20px -4px hsl(345 60% 28% / 0.1)",
+        elegant: "0 8px 30px -8px hsl(345 60% 28% / 0.15)",
         gold: "0 4px 20px -4px hsl(42 75% 55% / 0.4)",
       },
     },

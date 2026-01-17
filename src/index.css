@@ -8,36 +8,36 @@
   :root {
     /* Luxurious Pakistani-inspired color palette */
     --background: 35 30% 97%;
-    --foreground: 150 25% 15%;
+    --foreground: 345 25% 15%;
 
     --card: 35 25% 98%;
-    --card-foreground: 150 25% 15%;
+    --card-foreground: 345 25% 15%;
 
     --popover: 35 25% 98%;
-    --popover-foreground: 150 25% 15%;
+    --popover-foreground: 345 25% 15%;
 
-    /* Deep Emerald Green - Primary brand color */
-    --primary: 158 60% 22%;
+    /* Rich Burgundy/Maroon - Primary brand color */
+    --primary: 345 60% 28%;
     --primary-foreground: 40 30% 95%;
 
     /* Warm Cream/Gold - Secondary */
     --secondary: 38 35% 92%;
-    --secondary-foreground: 150 25% 20%;
+    --secondary-foreground: 345 25% 20%;
 
     /* Muted warm tones */
     --muted: 35 20% 93%;
-    --muted-foreground: 150 10% 45%;
+    --muted-foreground: 345 10% 45%;
 
     /* Gold accent */
     --accent: 42 75% 55%;
-    --accent-foreground: 150 30% 10%;
+    --accent-foreground: 345 30% 10%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 35 20% 88%;
     --input: 35 20% 88%;
-    --ring: 158 60% 22%;
+    --ring: 345 60% 28%;
 
     --radius: 0.5rem;
 
@@ -45,70 +45,69 @@
     --gold: 42 75% 55%;
     --gold-light: 42 60% 70%;
     --gold-dark: 42 80% 40%;
-    --emerald: 158 60% 22%;
-    --emerald-light: 158 45% 35%;
-    --emerald-dark: 158 70% 15%;
+    --burgundy: 345 60% 28%;
+    --burgundy-light: 345 50% 40%;
+    --burgundy-dark: 345 70% 18%;
     --cream: 35 30% 97%;
     --cream-dark: 35 25% 90%;
-    --burgundy: 345 60% 35%;
 
     /* Gradients */
     --gradient-gold: linear-gradient(135deg, hsl(42 75% 55%), hsl(42 60% 70%));
-    --gradient-emerald: linear-gradient(135deg, hsl(158 60% 22%), hsl(158 45% 35%));
-    --gradient-hero: linear-gradient(135deg, hsl(158 70% 15% / 0.9), hsl(158 60% 22% / 0.85));
+    --gradient-burgundy: linear-gradient(135deg, hsl(345 60% 28%), hsl(345 50% 40%));
+    --gradient-hero: linear-gradient(135deg, hsl(345 70% 18% / 0.9), hsl(345 60% 28% / 0.85));
 
     /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(158 60% 22% / 0.1);
-    --shadow-card: 0 8px 30px -8px hsl(158 60% 22% / 0.12);
+    --shadow-soft: 0 4px 20px -4px hsl(345 60% 28% / 0.1);
+    --shadow-card: 0 8px 30px -8px hsl(345 60% 28% / 0.12);
     --shadow-gold: 0 4px 20px -4px hsl(42 75% 55% / 0.3);
 
     /* Sidebar */
     --sidebar-background: 35 25% 98%;
-    --sidebar-foreground: 150 25% 15%;
-    --sidebar-primary: 158 60% 22%;
+    --sidebar-foreground: 345 25% 15%;
+    --sidebar-primary: 345 60% 28%;
     --sidebar-primary-foreground: 40 30% 95%;
     --sidebar-accent: 35 20% 93%;
-    --sidebar-accent-foreground: 150 25% 20%;
+    --sidebar-accent-foreground: 345 25% 20%;
     --sidebar-border: 35 20% 88%;
-    --sidebar-ring: 158 60% 22%;
+    --sidebar-ring: 345 60% 28%;
   }
 
   .dark {
-    --background: 150 30% 8%;
+    --background: 345 30% 8%;
     --foreground: 35 20% 95%;
 
-    --card: 150 25% 12%;
+    --card: 345 25% 12%;
     --card-foreground: 35 20% 95%;
 
-    --popover: 150 25% 12%;
+    --popover: 345 25% 12%;
     --popover-foreground: 35 20% 95%;
 
     --primary: 42 75% 55%;
-    --primary-foreground: 150 30% 10%;
+    --primary-foreground: 345 30% 10%;
 
-    --secondary: 150 20% 18%;
+    --secondary: 345 20% 18%;
     --secondary-foreground: 35 20% 95%;
 
-    --muted: 150 20% 18%;
+    --muted: 345 20% 18%;
     --muted-foreground: 35 15% 60%;
 
-    --accent: 158 45% 35%;
+    --accent: 345 45% 35%;
     --accent-foreground: 35 20% 95%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 20% 20%;
-    --input: 150 20% 20%;
+    --border: 345 20% 20%;
+    --input: 345 20% 20%;
     --ring: 42 75% 55%;
 
-    --sidebar-background: 150 25% 12%;
+    --sidebar-background: 345 25% 12%;
     --sidebar-foreground: 35 20% 95%;
     --sidebar-primary: 42 75% 55%;
-    --sidebar-primary-foreground: 150 30% 10%;
-    --sidebar-accent: 150 20% 18%;
+    --sidebar-primary-foreground: 345 30% 10%;
+    --sidebar-accent: 345 20% 18%;
     --sidebar-accent-foreground: 35 20% 95%;
-    --sidebar-border: 150 20% 20%;
+    --sidebar-border: 345 20% 20%;
     --sidebar-ring: 42 75% 55%;
   }
 }
@@ -138,7 +137,7 @@
   }
 
   .bg-gradient-hero {
-    background: linear-gradient(135deg, hsl(158 70% 15% / 0.92), hsl(158 60% 22% / 0.88));
+    background: linear-gradient(135deg, hsl(345 70% 18% / 0.92), hsl(345 60% 28% / 0.88));
   }
 
   .bg-gradient-gold {
@@ -150,7 +149,7 @@
   }
 
   .shadow-elegant {
-    box-shadow: 0 8px 30px -8px hsl(158 60% 22% / 0.15);
+    box-shadow: 0 8px 30px -8px hsl(345 60% 28% / 0.15);
   }
 }
 
