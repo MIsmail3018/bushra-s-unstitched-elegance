@@ -67,8 +67,13 @@ const Checkout: React.FC = () => {
     },
   });
 
+  React.useEffect(() => {
+    if (items.length === 0 && !orderComplete) {
+      navigate('/cart');
+    }
+  }, [items.length, orderComplete, navigate]);
+
   if (items.length === 0 && !orderComplete) {
-    navigate('/cart');
     return null;
   }
 
