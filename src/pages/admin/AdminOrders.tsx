@@ -13,24 +13,7 @@ import {
 } from '@/components/ui/select';
 import { toast } from 'sonner';
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-};
-
-const formatDate = (date: string): string => {
-  return new Date(date).toLocaleDateString('en-PK', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-};
+import { formatPrice, formatDateTime } from '@/lib/formatters';
 
 const statusConfig: Record<string, { icon: React.ElementType; color: string }> = {
   pending: { icon: Clock, color: 'text-yellow-600 bg-yellow-50' },
@@ -131,7 +114,7 @@ const AdminOrders: React.FC = () => {
                       Order #{order.id.slice(0, 8).toUpperCase()}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      {formatDate(order.created_at)}
+                      {formatDateTime(order.created_at)}
                     </p>
                   </div>
                   <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${status.color}`}>

@@ -34,14 +34,7 @@ const checkoutSchema = z.object({
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-};
+import { formatPrice } from '@/lib/formatters';
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();

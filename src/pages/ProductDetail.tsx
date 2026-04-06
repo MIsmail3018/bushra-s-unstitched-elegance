@@ -10,14 +10,7 @@ import { useCart } from '@/contexts/CartContext';
 import { toast } from 'sonner';
 import placeholderImage from '@/assets/product-placeholder-1.jpg';
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-};
+import { formatPrice } from '@/lib/formatters';
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();

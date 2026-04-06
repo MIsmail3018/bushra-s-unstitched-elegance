@@ -8,22 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/contexts/AuthContext';
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-};
-
-const formatDate = (date: string): string => {
-  return new Date(date).toLocaleDateString('en-PK', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-};
+import { formatPrice, formatDate } from '@/lib/formatters';
 
 const statusConfig: Record<string, { icon: React.ElementType; label: string; color: string }> = {
   pending: { icon: Clock, label: 'Pending', color: 'text-yellow-600 bg-yellow-50' },

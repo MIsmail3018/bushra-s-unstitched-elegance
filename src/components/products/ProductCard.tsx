@@ -6,6 +6,8 @@ import { useCart } from '@/contexts/CartContext';
 import { toast } from 'sonner';
 import placeholderImage from '@/assets/product-placeholder-1.jpg';
 
+import { formatPrice } from '@/lib/formatters';
+
 interface ProductImage {
   id: string;
   image_url: string;
@@ -32,15 +34,6 @@ interface ProductCardProps {
   product: Product;
   index?: number;
 }
-
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-};
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, index = 0 }) => {
   const { addItem } = useCart();

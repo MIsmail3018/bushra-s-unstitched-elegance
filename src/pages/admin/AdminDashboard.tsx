@@ -8,20 +8,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, Legend } from 'recharts';
 import { format, subDays, startOfDay, eachDayOfInterval } from 'date-fns';
 
-const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-PK', {
-    style: 'currency',
-    currency: 'PKR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-};
-
-const formatCompactPrice = (price: number): string => {
-  if (price >= 1000000) return `${(price / 1000000).toFixed(1)}M`;
-  if (price >= 1000) return `${(price / 1000).toFixed(0)}K`;
-  return price.toString();
-};
+import { formatPrice, formatCompactPrice } from '@/lib/formatters';
 
 const STATUS_COLORS: Record<string, string> = {
   pending: 'hsl(var(--chart-1))',
