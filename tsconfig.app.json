@@ -3,39 +3,21 @@
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-<<<<<<< HEAD
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
-          "target": "ES2020",
-          "useDefineForClassFields": true,
-          "lib": [
-            "ES2020",
-            "DOM",
-            "DOM.Iterable"
-          ],
-          "module": "ESNext",
-          "skipLibCheck": true,
-
-          /* Bundler mode */
-          "moduleResolution": "bundler",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
     "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
-    /* Linting */
+    "noEmit": true,
     "noUnusedLocals": false,
-          "jsx": "react-jsx",
-
->>>>>>> ff2aebd (chore: improve code quality and security)
-      "@/*": [
-        "./src/*"
-          "noImplicitAny": false,
-          "noFallthroughCasesInSwitch": false,
-          "strict": false,
-
-    "useDefineForClassFields": true
+    "noImplicitAny": false,
+    "noFallthroughCasesInSwitch": false,
+    "strict": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src"
-          }
+  "include": ["src"]
+}
